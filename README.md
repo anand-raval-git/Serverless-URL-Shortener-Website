@@ -1,25 +1,33 @@
-# Serverless URL Shortner using S3, Lambda, DynamoDB and API Gateway
+# Serverless URL Shortener using S3, Lambda, DynamoDB, and API Gateway
 
 ## Summary
-There are many URL shortners out there implemented in PHP, Node, Ruby, etc.  Dave Konopka has also created a really neat verion using the AWS components of Lambda, Dynamo and the API gateway with a ridiculously cheap operating cost...about $5.12 per month to support 1 million hits. (http://www.davekonopka.com/2016/serverless-aws-lambda-api-gateway.html)
- 
-I wanted to see if I could go a slightly differnt route--partly as a traning excercise, partly to see if I could come up with a less costly way but mostly because I like finding new ways to leverage AWS functionality--aka "hack the system".
+This project is a simple yet powerful **AWS Serverless URL Shortener** built as part of a university major project.  
+It uses **Amazon S3** for hosting and redirection, **AWS Lambda** for backend logic, **API Gateway** for secure request handling, and **DynamoDB** for storing short and long URL mappings.  
+
+The main idea behind this project was to understand how different AWS microservices can communicate with each other in a serverless way and build a real-world application without using any dedicated servers. It’s lightweight, scalable, and can handle thousands of requests with minimal cost.
 
 ## Design
-In Dave's example, he uses API Gateway to front-end both the POST (convert a normal URL to shortened URL) and GET (translate the short URL into the original URL), returning a nifty redirect HTTP code to the client.
+The system flow is straightforward:
+- The **frontend** (React + Vite) is hosted on **S3** and lets users enter long URLs.
+- The **API Gateway** receives the request and triggers a **Lambda** function.
+- The Lambda function generates a unique short code and stores it in **DynamoDB**.
+- For redirection, **S3** can handle static link redirects using metadata or custom logic in Lambda.
+- This setup helps reduce costs while maintaining good performance.
 
-The only problem I see is what if a few tiny URL's go absolutely viral?!  All of the services used for the GET would be hit and costs would go up...  We'd be talking what....$6 or even $7 dollars now?  Wow, maybe some of you can simply absorb those extra $2 dollars but not me....No Sir!
+We also planned to integrate more microservices like analytics tracking, user authentication, and domain-based short URLs to make it more production-ready.  
 
-Instead, I wanted to offload the GET portion from API Gateway, Lambda and Dynamo and use S3.  Originally, I had the idea of generating an HTML file for each POST that used META REFRESH or some Javascript.  Then I figured out that we can tell S3 to redirect right in the object metadata itself.
-
-So, we'd be able to create a zero-byte file that contained the Website Redirect metadata to forward the client using the short URL to the original URL.  As a result, 1 million GET's from S3 is about $0.40.  We'd still do the POSTs via API Gateway and Lambda then use DynamoDB to keep a counter to encode as the short URL (actually the zero-byte object on S3).  We also want to purge out old URL's when they get past a certain age.
+This project helped us explore AWS cloud concepts like event-driven architecture, NoSQL storage, and serverless web hosting in an easy, hands-on way.
 
 ## Componets
 1. Setup S3 bucket
+   <img width="1919" height="961" alt="Screenshot 2025-11-07 233635" src="https://github.com/user-attachments/assets/88494bd7-4ff3-4b26-8bfe-210c5857f03a" />
 2. Setup a DynamoDB table to keep an atomic counter
-3. Create basic IAM role for our Lambda routine
+   <img width="1915" height="961" alt="Screenshot 2025-11-07 234651" src="https://github.com/user-attachments/assets/f59ace90-f799-461e-bb2c-e8077df7d9b1" />
+3. S3 Bucket Policy for public access
+  <img width="1918" height="967" alt="Screenshot 2025-11-07 233649" src="https://github.com/user-attachments/assets/75040fef-35b6-4771-8869-25b26849a8de" />  
 4. Create Lambda function to create the shortened key and save an object to S3
+   <img width="1913" height="970" alt="image" src="https://github.com/user-attachments/assets/52829a3d-d7f3-4f1d-94a3-2efc38e093fe" />
 5. Create API Gateway to front the Lambda routine for the POST
-6. Assign custom URL to S3 path
-7. Use the S3 Lifecycle config to purge out links past a certain age
-8. Profit!
+ <img width="1917" height="963" alt="Screenshot 2025-11-07 234604" src="https://github.com/user-attachments/assets/6965da36-7664-4b87-96c9-102773b9ad33" />
+6. Use the S3 Lifecycle config to purge out links past a certain age
+7. Get Shorten URL
