@@ -27,8 +27,12 @@ This project helped us explore AWS cloud concepts like event-driven architecture
 3. S3 Bucket Policy for public access
   <img width="1918" height="967" alt="Screenshot 2025-11-07 233649" src="https://github.com/user-attachments/assets/75040fef-35b6-4771-8869-25b26849a8de" />  
 4. Create Lambda function to create the shortened key and save an object to S3
-   <img width="1913" height="970" alt="image" src="https://github.com/user-attachments/assets/52829a3d-d7f3-4f1d-94a3-2efc38e093fe" />
+   <img width="1913" height="970"alt="image" src="https://github.com/user-attachments/assets/52829a3d-d7f3-4f1d-94a3-2efc38e093fe" />
 5. Create API Gateway to front the Lambda routine for the POST
  <img width="1917" height="963" alt="Screenshot 2025-11-07 234604" src="https://github.com/user-attachments/assets/6965da36-7664-4b87-96c9-102773b9ad33" />
 6. Use the S3 Lifecycle config to purge out links past a certain age
-7. Get Shorten URL
+7. Get Shorten URL 
+https://github.com/user-attachments/assets/5fc560f4-4611-4832-9b91-4f5cb7a64740
+
+
+   
