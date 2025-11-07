@@ -7,6 +7,7 @@ It uses **Amazon S3** for hosting and redirection, **AWS Lambda** for backend lo
 The main idea behind this project was to understand how different AWS microservices can communicate with each other in a serverless way and build a real-world application without using any dedicated servers. It’s lightweight, scalable, and can handle thousands of requests with minimal cost.
 
 ## Design
+<img width="1526" height="749" alt="Screenshot 2025-11-02 190425" src="https://github.com/user-attachments/assets/c7416910-bd88-4d7f-a23f-2b78660d9aab" />
 The system flow is straightforward:
 - The **frontend** (React + Vite) is hosted on **S3** and lets users enter long URLs.
 - The **API Gateway** receives the request and triggers a **Lambda** function.
